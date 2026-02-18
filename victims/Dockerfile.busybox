@@ -1,0 +1,10 @@
+# BUSYBOX - Minimal embedded device scenario
+# Tools: sh, busybox nc (no -e flag)
+# Challenge: No bash, no /dev/tcp, limited nc
+
+FROM busybox:latest
+
+LABEL description="Minimal busybox - no bash, limited nc"
+
+# Just give us a shell
+CMD ["sh"]

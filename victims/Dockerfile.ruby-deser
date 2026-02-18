@@ -1,0 +1,27 @@
+# RUBY DESERIALIZATION - Ruby YAML/Psych deserialization vulnerability
+# Tools: ruby, sinatra, psych (YAML), bash, nc
+# Challenge: YAML unsafe_load deserialization to RCE and reverse shell
+
+FROM ruby:3.2-slim
+
+LABEL description="Ruby YAML Deserialization - RCE via unsafe YAML loading"
+
+# Install Sinatra for web interface
+RUN gem install sinatra json puma --no-document
+
+# Install netcat and curl
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends netcat-traditional vim curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create application directory
+WORKDIR /app
+
+# Copy the vulnerable YAML deserialization application
+COPY ruby-deser-files/app.rb /app/
+
+# Expose port
+EXPOSE 4567
+
+# Run the application
+CMD ["ruby", "app.rb"]

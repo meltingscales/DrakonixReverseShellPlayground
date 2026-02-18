@@ -1,0 +1,27 @@
+# FLASK SSTI - Python Flask with Server-Side Template Injection
+# Tools: python, flask, jinja2, bash, nc
+# Challenge: SSTI exploitation to RCE and reverse shell
+
+FROM python:3.11-slim
+
+LABEL description="Flask SSTI - Server-Side Template Injection"
+
+# Install Flask and dependencies
+RUN pip install --no-cache-dir flask jinja2 requests
+
+# Install netcat for reverse shells
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends netcat-traditional vim curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create application directory
+WORKDIR /app
+
+# Copy the vulnerable Flask application
+COPY flask-ssti-files/app.py /app/
+
+# Expose port
+EXPOSE 5000
+
+# Run the application
+CMD ["python", "app.py"]

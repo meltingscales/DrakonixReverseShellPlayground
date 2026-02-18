@@ -1,0 +1,27 @@
+# PYTHON DESERIALIZATION - Python pickle deserialization vulnerability
+# Tools: python, flask, pickle, bash, nc
+# Challenge: Pickle deserialization to RCE and reverse shell
+
+FROM python:3.11-slim
+
+LABEL description="Python Pickle Deserialization - RCE via unsafe unpickling"
+
+# Install Flask for web interface
+RUN pip install --no-cache-dir flask
+
+# Install netcat and curl for reverse shells
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends netcat-traditional vim curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create application directory
+WORKDIR /app
+
+# Copy the vulnerable pickle deserialization application
+COPY python-deser-files/app.py /app/
+
+# Expose port
+EXPOSE 5001
+
+# Run the application
+CMD ["python", "app.py"]

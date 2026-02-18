@@ -1,0 +1,11 @@
+# ALPINE + BASH - Small image with bash
+# Tools: sh, bash, busybox nc (no -e)
+# Challenge: Standard shell but limited netcat
+
+FROM alpine:latest
+
+LABEL description="Alpine with bash - limited nc"
+
+RUN apk add --no-cache bash
+
+CMD ["sh"]

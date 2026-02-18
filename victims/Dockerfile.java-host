@@ -1,0 +1,32 @@
+# JAVA HOST - Java application environment
+# Tools: java, bash, nc, tomcat
+# Challenge: Java deserialization, Runtime.exec() payloads
+
+FROM eclipse-temurin:17-jdk
+
+LABEL description="Java host - practice Java deserialization"
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        bash \
+        netcat-traditional \
+        curl \
+        vim \
+        maven && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create application directory
+WORKDIR /app
+
+# Copy Maven project files
+COPY java-host-files/pom.xml /app/
+COPY java-host-files/src /app/src
+
+# Build the application
+RUN mvn clean package -DskipTests
+
+# Expose ports
+EXPOSE 8081
+
+# Run the vulnerable application
+CMD ["java", "-jar", "target/vulnerable-java-1.0-SNAPSHOT.jar"]

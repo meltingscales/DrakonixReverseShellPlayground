@@ -1,0 +1,18 @@
+# UBUNTU PYTHON - Python-focused environment
+# Tools: bash, sh, python3
+# Challenge: No netcat - must use Python for reverse shells
+
+FROM ubuntu:22.04
+
+LABEL description="Ubuntu with Python - no netcat"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        bash \
+        python3 \
+        curl && \
+    rm -rf /var/lib/apt/lists/*
+
+CMD ["bash"]

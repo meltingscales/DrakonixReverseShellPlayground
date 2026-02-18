@@ -1,0 +1,20 @@
+# DEBIAN FULL - Standard Linux server
+# Tools: bash, sh, nc (traditional), python3, perl
+# Challenge: Normal environment - test all standard techniques
+
+FROM debian:12-slim
+
+LABEL description="Debian full - standard tools available"
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        bash \
+        netcat-traditional \
+        python3 \
+        perl \
+        curl \
+        wget && \
+    rm -rf /var/lib/apt/lists/* && \
+    update-alternatives --set nc /usr/bin/nc.traditional || true
+
+CMD ["bash"]

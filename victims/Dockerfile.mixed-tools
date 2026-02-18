@@ -1,0 +1,27 @@
+# MIXED TOOLS - Everything available
+# Tools: bash, sh, nc, python3, perl, ruby, php, node, lua, socat, telnet
+# Challenge: Pick the right tool for the job
+
+FROM debian:12-slim
+
+LABEL description="Mixed tools - everything available"
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        bash \
+        netcat-traditional \
+        socat \
+        telnet \
+        python3 \
+        perl \
+        ruby \
+        php-cli \
+        nodejs \
+        lua5.4 \
+        curl \
+        wget \
+        vim \
+        nmap && \
+    rm -rf /var/lib/apt/lists/*
+
+CMD ["bash"]

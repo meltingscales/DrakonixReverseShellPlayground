@@ -1,0 +1,13 @@
+# DEBIAN MINIMAL - Basic Linux
+# Tools: sh, bash
+# Challenge: No netcat, no Python - pure shell techniques
+
+FROM debian:12-slim
+
+LABEL description="Debian minimal - no nc, no python"
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends bash && \
+    rm -rf /var/lib/apt/lists/*
+
+CMD ["bash"]

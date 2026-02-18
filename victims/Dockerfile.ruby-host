@@ -1,0 +1,15 @@
+# RUBY HOST - Ruby application environment
+# Tools: ruby, bash, nc
+# Challenge: Ruby reverse shells, deserialization payloads
+
+FROM ruby:3-slim
+
+LABEL description="Ruby host - practice Ruby shells"
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        bash \
+        netcat-traditional && \
+    rm -rf /var/lib/apt/lists/*
+
+CMD ["irb"]

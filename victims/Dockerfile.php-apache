@@ -1,0 +1,32 @@
+# PHP APACHE - Web server with PHP
+# Tools: php, apache, bash, nc
+# Challenge: Web-based reverse shells, LFI, RFI, XXE practice
+
+FROM php:8.2-apache
+
+LABEL description="PHP Apache - web-based shells with LFI/RFI/XXE"
+
+# Enable dangerous functions for practice
+RUN echo "disable_functions = " > /usr/local/etc/php/conf.d/disable-nothing.ini
+
+# Enable allow_url_include for RFI vulnerabilities
+RUN echo "allow_url_include = On" > /usr/local/etc/php/conf.d/security-weak.ini && \
+    echo "allow_url_fopen = On" >> /usr/local/etc/php/conf.d/security-weak.ini
+
+# Install netcat and libxml
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends netcat-traditional vim libxml2 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy vulnerable PHP files
+COPY php-apache-files/vulnerable /var/www/html/vulnerable
+
+RUN chmod 644 /var/www/html/vulnerable/*
+
+# Configure Apache logging for log poisoning
+RUN chmod 644 /var/log/apache2/access.log
+
+# Enable Apache mod_rewrite and headers
+RUN a2enmod rewrite headers
+
+CMD ["apache2-foreground"]

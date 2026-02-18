@@ -1,0 +1,193 @@
+version: "3.8"
+
+networks:
+  drakonix_internal:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+services:
+  attacker:
+    image: ${ATTACKER_IMAGE:-kalilinux/kali-rolling:latest}
+    container_name: drakonix-attacker
+    hostname: attacker
+    networks:
+      - drakonix_internal
+    command: sleep infinity
+    stdin_open: true
+    tty: true
+
+  # === MINIMAL VICTIMS ===
+
+  victim-busybox:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.busybox
+    container_name: drakonix-victim-busybox
+    hostname: busybox
+    networks:
+      - drakonix_internal
+    stdin_open: true
+    tty: true
+    command: sh
+
+  victim-alpine-bash:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.alpine-bash
+    container_name: drakonix-victim-alpine-bash
+    hostname: alpine-bash
+    networks:
+      - drakonix_internal
+    stdin_open: true
+    tty: true
+
+  # === DEBIAN/UBUNTU VICTIMS ===
+
+  victim-debian-minimal:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.debian-minimal
+    container_name: drakonix-victim-debian-minimal
+    hostname: debian-minimal
+    networks:
+      - drakonix_internal
+    stdin_open: true
+    tty: true
+
+  victim-debian-full:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.debian-full
+    container_name: drakonix-victim-debian-full
+    hostname: debian-full
+    networks:
+      - drakonix_internal
+    stdin_open: true
+    tty: true
+
+  victim-ubuntu-python:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.ubuntu-python
+    container_name: drakonix-victim-ubuntu-python
+    hostname: ubuntu-python
+    networks:
+      - drakonix_internal
+    stdin_open: true
+    tty: true
+
+  # === LANGUAGE-SPECIFIC VICTIMS ===
+
+  victim-php-cli:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.php-cli
+    container_name: drakonix-victim-php-cli
+    hostname: php-cli
+    networks:
+      - drakonix_internal
+    stdin_open: true
+    tty: true
+    command: php -a
+
+  victim-php-apache:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.php-apache
+    container_name: drakonix-victim-php-apache
+    hostname: php-apache
+    networks:
+      - drakonix_internal
+    ports:
+      - "8080:80"
+    stdin_open: true
+    tty: true
+
+  victim-flask-ssti:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.flask-ssti
+    container_name: drakonix-victim-flask-ssti
+    hostname: flask-ssti
+    networks:
+      - drakonix_internal
+    ports:
+      - "5000:5000"
+    stdin_open: true
+    tty: true
+
+  victim-python-deser:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.python-deser
+    container_name: drakonix-victim-python-deser
+    hostname: python-deser
+    networks:
+      - drakonix_internal
+    ports:
+      - "5001:5001"
+    stdin_open: true
+    tty: true
+
+  # victim-ruby-deser:
+  #   build:
+  #     context: ./victims
+  #     dockerfile: Dockerfile.ruby-deser
+  #   container_name: drakonix-victim-ruby-deser
+  #   hostname: ruby-deser
+  #   networks:
+  #     - drakonix_internal
+  #   ports:
+  #     - "4567:4567"
+  #   stdin_open: true
+  #   tty: true
+
+  victim-ruby-host:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.ruby-host
+    container_name: drakonix-victim-ruby-host
+    hostname: ruby-host
+    networks:
+      - drakonix_internal
+    stdin_open: true
+    tty: true
+
+  victim-node-host:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.node-host
+    container_name: drakonix-victim-node-host
+    hostname: node-host
+    networks:
+      - drakonix_internal
+    stdin_open: true
+    tty: true
+
+  victim-java-host:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.java-host
+    container_name: drakonix-victim-java-host
+    hostname: java-host
+    networks:
+      - drakonix_internal
+    ports:
+      - "8081:8081"
+    stdin_open: true
+    tty: true
+
+  # === EVERYTHING AVAILABLE ===
+
+  victim-mixed-tools:
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.mixed-tools
+    container_name: drakonix-victim-mixed-tools
+    hostname: mixed-tools
+    networks:
+      - drakonix_internal
+    stdin_open: true
+    tty: true
