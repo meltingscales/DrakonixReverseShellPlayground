@@ -1,0 +1,77 @@
+# ATTACKER - Kali Linux with offensive security tools
+# Base: Kali Linux rolling
+# Tools: curl, wget, nc, nmap, sqlmap, nikto, gobuster, ffuf, etc.
+
+FROM kalilinux/kali-rolling:latest
+
+LABEL description="Attacker box with offensive security tools"
+
+# Install useful offensive tools
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        curl \
+        wget \
+        netcat-traditional \
+        nmap \
+        sqlmap \
+        nikto \
+        gobuster \
+        ffuf \
+        seclists \
+        dirb \
+        wfuzz \
+        python3 \
+        python3-pip \
+        python3-pipx \
+        python3-venv \
+        git \
+        vim \
+        nano \
+        tcpdump \
+        socat \
+        proxychains \
+        tor \
+        apache2-utils \
+        telnet \
+        ftp \
+        ssh \
+        smbclient \
+        snmp \
+        whois \
+        host \
+        dnsutils \
+        fping \
+        masscan \
+        hydra \
+        medusa \
+        john \
+        hashcat \
+        hashcat-data \
+        crunch \
+        cewl \
+        patator \
+        metasploit-framework \
+        responder \
+        impacket-scripts \
+        enum4linux \
+        onesixtyone \
+        sslscan \
+        whatweb \
+        wafw00f \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install Python tools via pipx (isolated environments)
+RUN pipx install \
+        requests \
+        beautifulsoup4 \
+        paramiko \
+        scapy \
+        pwntools \
+        && pipx ensurepath
+
+# Create workspace directory
+RUN mkdir -p /root/workspace
+
+WORKDIR /root
+
+CMD ["bash"]

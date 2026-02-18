@@ -9,12 +9,13 @@ networks:
 
 services:
   attacker:
-    image: ${ATTACKER_IMAGE:-kalilinux/kali-rolling:latest}
+    build:
+      context: ./victims
+      dockerfile: Dockerfile.attacker
     container_name: drakonix-attacker
     hostname: attacker
     networks:
       - drakonix_internal
-    command: sleep infinity
     stdin_open: true
     tty: true
 
