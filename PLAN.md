@@ -1,0 +1,1 @@
+I want to make a reverse shell playground. Basic SH/BASH/Python exec()/Ruby deserialization/PHP LFI/PHP RFI/XLST XXE/etc. First let's list out types of reverse shells, then add some blocklisting possibilities, then let's plan to make it with multiple dockerfiles and a docker-compose deployment that ties them together.
